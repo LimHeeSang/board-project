@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Objects;
@@ -37,10 +36,6 @@ public class ArticleComment extends AuditingFields{
     @Setter
     @Column(nullable = false, length = 500)
     private String content;
-
-    @JoinColumn(name = "id")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private UserAccount userAccount;
 
     protected ArticleComment() {
     }
