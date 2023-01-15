@@ -7,10 +7,13 @@ import lombok.ToString;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -43,6 +46,10 @@ public class Article extends AuditingFields{
 
     @Setter
     private String hashtag;
+
+    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private UserAccount userAccount;
 
     @ToString.Exclude
     @OrderBy("id")
