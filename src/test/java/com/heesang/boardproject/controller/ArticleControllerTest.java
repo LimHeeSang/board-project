@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -104,7 +105,7 @@ class ArticleControllerTest {
         return ArticleWithCommentsDto.of(
                 1L,
                 createUserAccountDto(),
-                null,
+                Set.of(),
                 "title",
                 "content",
                 "hashtag",
