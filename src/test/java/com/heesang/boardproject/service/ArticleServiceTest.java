@@ -7,7 +7,6 @@ import com.heesang.boardproject.dto.ArticleDto;
 import com.heesang.boardproject.dto.ArticleWithCommentsDto;
 import com.heesang.boardproject.dto.UserAccountDto;
 import com.heesang.boardproject.repository.ArticleRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +27,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 
-@Disabled
 @DisplayName("비지니스 로직 - 게시글")
 @ExtendWith(MockitoExtension.class)
 class ArticleServiceTest {
@@ -47,7 +45,7 @@ class ArticleServiceTest {
         given(articleRepository.findAll(pageable)).willReturn(Page.empty());
 
         // When
-        Page<ArticleDto> articles = sut.searchArticles(pageable);
+        Page<ArticleDto> articles = sut.searchArticles(null, null, pageable);
 
         // Then
         assertThat(articles).isEmpty();
@@ -61,14 +59,14 @@ class ArticleServiceTest {
         SearchType searchType = SearchType.TITLE;
         String searchKeyword = "title";
         Pageable pageable = Pageable.ofSize(20);
-        given(articleRepository.findByTitle(searchKeyword, pageable)).willReturn(Page.empty());
+        given(articleRepository.findByTitleContaining(searchKeyword, pageable)).willReturn(Page.empty());
 
         // When
         Page<ArticleDto> articles = sut.searchArticles(searchType, searchKeyword, pageable);
 
         // Then
         assertThat(articles).isEmpty();
-        then(articleRepository).should().findByTitle(searchKeyword, pageable);
+        then(articleRepository).should().findByTitleContaining(searchKeyword, pageable);
     }
 
     @DisplayName("게시글을 조회하면, 게시글을 반환한다.")
