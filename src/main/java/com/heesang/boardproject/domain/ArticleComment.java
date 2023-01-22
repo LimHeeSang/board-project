@@ -1,7 +1,6 @@
 package com.heesang.boardproject.domain;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -29,16 +28,13 @@ public class ArticleComment extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @Column(nullable = false, length = 500)
     private String content;
 
-    @Setter
     @ManyToOne(optional = false)
     private UserAccount userAccount;
 
     @ToString.Exclude
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Article article;
 
@@ -53,6 +49,12 @@ public class ArticleComment extends AuditingFields {
 
     public static ArticleComment of(String content, UserAccount userAccount, Article article) {
         return new ArticleComment(content, userAccount, article);
+    }
+
+    public void updateComment(String content) {
+        if (content != null) {
+            this.content = content;
+        }
     }
 
     @Override
