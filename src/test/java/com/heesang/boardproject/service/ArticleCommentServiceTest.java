@@ -7,7 +7,6 @@ import com.heesang.boardproject.dto.ArticleCommentDto;
 import com.heesang.boardproject.dto.UserAccountDto;
 import com.heesang.boardproject.repository.ArticleCommentRepository;
 import com.heesang.boardproject.repository.ArticleRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +24,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 
-@Disabled
 @DisplayName("비지니스 로직 - 댓글")
 @ExtendWith(MockitoExtension.class)
 class ArticleCommentServiceTest {
