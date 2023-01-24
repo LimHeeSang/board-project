@@ -1,8 +1,8 @@
 package com.heesang.boardproject.controller;
 
 import com.heesang.boardproject.domain.type.SearchType;
-import com.heesang.boardproject.response.ArticleResponse;
-import com.heesang.boardproject.response.ArticleWithCommentsResponse;
+import com.heesang.boardproject.dto.response.ArticleResponse;
+import com.heesang.boardproject.dto.response.ArticleWithCommentsResponse;
 import com.heesang.boardproject.service.ArticleService;
 import com.heesang.boardproject.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +38,8 @@ public class ArticleController {
         List<Integer> paginationBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
 
         model.addAttribute("articles", articles);
-        model.addAttribute("paginationBarNumbers", paginationBarNumbers);
         model.addAttribute("searchTypes", SearchType.values());
+        model.addAttribute("paginationBarNumbers", paginationBarNumbers);
 
         return "articles/index";
     }
@@ -53,5 +53,23 @@ public class ArticleController {
         model.addAttribute("totalCount", articleService.getArticleCount());
 
         return "articles/detail";
+    }
+
+    @GetMapping("/search-hashtag")
+    public String searchHashtag(
+            @RequestParam(required = false) String searchValue,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            Model model
+    ) {
+        Page<ArticleResponse> articles = articleService.searchArticlesViaHashtag(searchValue, pageable).map(ArticleResponse::from);
+        List<Integer> paginationBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
+        List<String> hashtags = articleService.getHashtags();
+
+        model.addAttribute("articles", articles);
+        model.addAttribute("hashtags", hashtags);
+        model.addAttribute("searchType", SearchType.HASHTAG);
+        model.addAttribute("paginationBarNumbers", paginationBarNumbers);
+
+        return "articles/search-hashtag";
     }
 }
