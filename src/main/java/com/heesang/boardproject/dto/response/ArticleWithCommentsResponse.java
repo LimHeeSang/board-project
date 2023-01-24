@@ -1,4 +1,4 @@
-package com.heesang.boardproject.response;
+package com.heesang.boardproject.dto.response;
 
 import com.heesang.boardproject.dto.ArticleWithCommentsDto;
 
