@@ -3,6 +3,7 @@ package com.heesang.boardproject.repository;
 import com.heesang.boardproject.config.JpaConfig;
 import com.heesang.boardproject.domain.Article;
 import com.heesang.boardproject.domain.UserAccount;
+import com.heesang.boardproject.dto.ArticleDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,14 +67,13 @@ class JpaRepositoryTest {
     void givenTestData_whenUpdating_thenWorksFine() {
         // Given
         Article article = articleRepository.findById(1L).orElseThrow();
-        String updatedHashtag = "#java";
-        article.setHashtag(updatedHashtag);
+        article.updateArticleInfo(ArticleDto.from(createUpdatingArticle()));
 
         // When
         Article savedArticle = articleRepository.saveAndFlush(article);
 
         // Then
-        assertThat(savedArticle).hasFieldOrPropertyWithValue("hashtag", updatedHashtag);
+        assertThat(savedArticle).hasFieldOrPropertyWithValue("hashtag", "#java");
     }
 
     @DisplayName("delete 테스트")
@@ -91,5 +91,14 @@ class JpaRepositoryTest {
         // Then
         assertThat(articleRepository.count()).isEqualTo(previousArticleCount - 1);
         assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount - deletedCommentSize);
+    }
+
+    private Article createUpdatingArticle() {
+        return Article.of(
+                UserAccount.of(null, null, null, null, null),
+                "title",
+                "content",
+                "#java"
+        );
     }
 }

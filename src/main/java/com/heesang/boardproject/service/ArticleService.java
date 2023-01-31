@@ -1,10 +1,12 @@
 package com.heesang.boardproject.service;
 
 import com.heesang.boardproject.domain.Article;
-import com.heesang.boardproject.domain.type.SearchType;
+import com.heesang.boardproject.domain.UserAccount;
+import com.heesang.boardproject.domain.constant.SearchType;
 import com.heesang.boardproject.dto.ArticleDto;
 import com.heesang.boardproject.dto.ArticleWithCommentsDto;
 import com.heesang.boardproject.repository.ArticleRepository;
+import com.heesang.boardproject.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import java.util.List;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final UserAccountRepository userAccountRepository;
 
     @Transactional(readOnly = true)
     public Page<ArticleDto> searchArticles(SearchType searchType, String searchKeyword, Pageable pageable) {
@@ -39,25 +42,27 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public ArticleWithCommentsDto getArticle(Long articleId) {
+    public ArticleWithCommentsDto getArticleWithComments(Long articleId) {
         return articleRepository.findById(articleId).map(ArticleWithCommentsDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
     }
 
-    public void saveArticle(ArticleDto articleDto) {
-        articleRepository.save(articleDto.toEntity());
+    @Transactional(readOnly = true)
+    public ArticleDto getArticle(Long articleId) {
+        return articleRepository.findById(articleId)
+                .map(ArticleDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
     }
 
-    public void updateArticle(ArticleDto articleDto) {
+    public void saveArticle(ArticleDto dto) {
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        articleRepository.save(dto.toEntity(userAccount));
+    }
+
+    public void updateArticle(Long articleId, ArticleDto articleDto) {
         try {
-            Article article = articleRepository.getReferenceById(articleDto.id());
-            if (articleDto.title() != null) {
-                article.setTitle(articleDto.title());
-            }
-            if (articleDto.content() != null) {
-                article.setContent(articleDto.content());
-            }
-            article.setHashtag(articleDto.hashtag());
+            Article article = articleRepository.getReferenceById(articleId);
+            article.updateArticleInfo(articleDto);
         } catch (EntityNotFoundException e) {
             log.warn("게시글 업데이트 실패. 게시글을 찾을 수 없습니다 - dto: {}", articleDto);
         }
