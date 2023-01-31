@@ -1,7 +1,7 @@
 package com.heesang.boardproject.domain;
 
+import com.heesang.boardproject.dto.ArticleDto;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.CascadeType;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -34,18 +35,15 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @Column(nullable = false)
     private String title;
 
-    @Setter
     @Column(nullable = false, length = 10000)
     private String content;
 
-    @Setter
     private String hashtag;
 
-    @Setter
+    @JoinColumn(name = "userId")
     @ManyToOne(optional = false)
     private UserAccount userAccount;
 
@@ -66,6 +64,16 @@ public class Article extends AuditingFields {
 
     public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
         return new Article(userAccount, title, content, hashtag);
+    }
+
+    public void updateArticleInfo(ArticleDto articleDto) {
+        if (articleDto.title() != null) {
+            this.title = articleDto.title();
+        }
+        if (articleDto.content() != null) {
+            this.content = articleDto.content();
+        }
+        this.hashtag = articleDto.hashtag();
     }
 
     @Override
