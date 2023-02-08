@@ -2,6 +2,7 @@ package com.heesang.boardproject.dto;
 
 import com.heesang.boardproject.domain.Article;
 import com.heesang.boardproject.domain.ArticleComment;
+import com.heesang.boardproject.domain.UserAccount;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,10 @@ public record ArticleCommentDto(
                 createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
+    public static ArticleCommentDto of(Long articleId, UserAccountDto userAccountDto, String content) {
+        return new ArticleCommentDto(null, articleId, userAccountDto, content, null, null, null, null);
+    }
+
     public static ArticleCommentDto from(ArticleComment entity) {
         return new ArticleCommentDto(
                 entity.getId(),
@@ -41,7 +46,7 @@ public record ArticleCommentDto(
         );
     }
 
-    public ArticleComment toEntity(Article article) {
-        return ArticleComment.of(content, userAccountDto.toEntity(), article);
+    public ArticleComment toEntity(Article article, UserAccount userAccount) {
+        return ArticleComment.of(content, userAccount, article);
     }
 }
