@@ -1,13 +1,15 @@
 # board-project
 
 가장 기본적이고 보편적인 게시판 기능을 둘러볼 수 있는 서비스입니다.
+<br/><br/>
 
-## 프로젝트 목표
+## 🏃🏻‍♂️프로젝트 목표
 * 실제 현업과 유사한 프로세스로 개발을 진행하는 것이 목표
 
   * 깃허브 칸반보드에 To do list를 잘 쪼개서 일정과 이슈, PR을 관리
   * 깃 커밋 컨벤션과 브랜치 전략 도입
   * Reference를 잘 작성하고 관리한다.(usecase diagram, erd diagram, API endpoint)
+<br/><br/>
 
 ## 개발 환경
 
@@ -15,6 +17,7 @@
 * Java 17
 * Gradle 7.4.1
 * Spring Boot 2.7.0
+<br/><br/>
 
 ## 기술 세부 스택
 
@@ -32,12 +35,12 @@ Spring Boot
 * Lombok
 * Spring Boot DevTools
 * Spring Configuration Processor
-
 그 외
 
 * QueryDSL 5.0.0
 * Bootstrap 5.2.0-Beta1
 * Heroku
+<br/><br/>
 
 ## Reference
 
