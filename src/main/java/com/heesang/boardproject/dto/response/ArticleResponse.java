@@ -2,7 +2,6 @@ package com.heesang.boardproject.dto.response;
 
 import com.heesang.boardproject.dto.ArticleDto;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record ArticleResponse(
@@ -13,7 +12,7 @@ public record ArticleResponse(
         LocalDateTime createdAt,
         String email,
         String nickname
-) implements Serializable {
+) {
 
     public static ArticleResponse of(
             Long id,
