@@ -6,6 +6,7 @@
 ## 🏃🏻‍♂️프로젝트 목표
 * 실제 현업과 유사한 프로세스로 개발을 진행하는 것이 목표
 
+  * TDD로 개발 진행
   * 깃허브 칸반보드에 To do list를 잘 쪼개서 일정과 이슈, PR을 관리
   * 깃 커밋 컨벤션과 브랜치 전략 도입
   * Reference를 잘 작성하고 관리한다.(usecase diagram, erd diagram, API endpoint)
